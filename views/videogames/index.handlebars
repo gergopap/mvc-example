@@ -1,0 +1,15 @@
+<h1>Videogames</h1>
+<table class="table table-stripped">
+  <tbody>
+    {{#each videogames}}
+    <tr>
+      <td>{{id}}</td>
+      <td>{{manufacturer}}</td>
+      <td>{{model}}</td>
+      <td><a href="/videogames/{{id}}" class="btn btn-primary">Show</a></td>
+      <td><a href="/videogames/{{id}}/edit" class="btn btn-secondary">Edit</a></td>
+      <td><a href="/videogames/{{id}}?_method=DELETE" class="btn btn-danger">Delete</a></td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
