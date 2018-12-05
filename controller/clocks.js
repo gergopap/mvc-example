@@ -27,6 +27,32 @@ clocks.get('/:id/edit', (req, res) => {
   });
 });
 
+//new
+clocks.get('/new', (req, res) => {
+  res.render('clocks/new.handlebars');
+});
+
+//create
+clocks.post('/', (req, res) => {
+  models.Clock.findOne({ where: { model: req.body.model } }).then(result => {
+    if (result) {
+      return res.status(400).send({
+        statusCode: 400,
+        error: 'bad request',
+        messege: 'Van már ilyen'
+      });
+    } else {
+      models.Clock.create({
+        manufacturer: req.body.manufacturer,
+        model: req.body.model,
+        type: req.body.type
+      }).then(clock => {
+        res.redirect('/clocks');
+      });
+    }
+  });
+});
+
 //show
 clocks.get('/:id', (req, res) => {
   models.Clock.findById(req.params.id).then(clock => {
@@ -43,49 +69,7 @@ clocks.get('/:id', (req, res) => {
   });
 });
 
-//new
-clocks.post('/new', (req, res) => {
-  models.Clock.findOne({ where: { model: req.body.model } }).then(result => {
-    if (result) {
-      return res.status(400).send({
-        statusCode: 400,
-        error: 'bad request',
-        messege: 'Van már ilyen'
-      });
-    } else {
-      models.Clock.create({
-        manufacturer: req.body.manufacturer,
-        model: req.body.model,
-        type: req.body.type
-      }).then(clock => {
-        res.locals.clock = clock;
-        res.render('clocks/new.handlebars');
-      });
-    }
-  });
-});
 
-
-
-clocks.post('/', (req, res) => {
-  models.Clock.findOne({ where: { model: req.body.model } }).then(result => {
-    if (result) {
-      return res.status(400).send({
-        statusCode: 400,
-        error: 'bad request',
-        messege: 'Van már ilyen'
-      });
-    } else {
-      models.Clock.create({
-        manufacturer: req.body.manufacturer,
-        model: req.body.model,
-        type: req.body.type
-      }).then(result => {
-        res.json(result);
-      });
-    }
-  });
-});
 
 clocks.delete('/:id', (req, res) => {
   models.Clock.destroy({ where: { id: req.params.id } }).then(result => {
@@ -96,12 +80,12 @@ clocks.delete('/:id', (req, res) => {
         messege: 'not found'
       });
     } else {
-      res.json(result);
+      res.redirect('/clocks');
     }
   });
 });
 
-clocks.put('/:id', (req, res) => {
+clocks.put('/:id/', (req, res) => {
   models.Clock.findById(req.params.id).then(result => {
     if (result) {
       models.Clock.update(

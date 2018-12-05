@@ -8,7 +8,10 @@
       <td>{{model}}</td>
       <td><a href="/videogames/{{id}}" class="btn btn-primary">Show</a></td>
       <td><a href="/videogames/{{id}}/edit" class="btn btn-secondary">Edit</a></td>
-      <td><a href="/videogames/{{id}}?_method=DELETE" class="btn btn-danger">Delete</a></td>
+     
+      <form method="POST" action="/videogames/{{id}}?_method=DELETE">
+      <td><input type="submit" value="Delete" class="btn btn-danger"/></td>
+      </form>
     </tr>
     {{/each}}
   </tbody>

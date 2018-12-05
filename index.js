@@ -4,8 +4,7 @@ const clocks = require('./controller/clocks');
 const videogames = require('./controller/videogames');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
-const methodOverride = require('method-override')
-
+const methodOverride = require('method-override');
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');

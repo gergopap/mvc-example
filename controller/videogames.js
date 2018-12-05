@@ -9,6 +9,31 @@ videogames.get('/', (req, res) => {
   });
 });
 
+//new
+videogames.get('/new', (req, res) => {
+  res.render('videogames/new.handlebars');
+});
+
+//create
+videogames.post('/', (req, res) => {
+  models.Videogame.findOne({ where: { model: req.body.model } }).then(preResult => {
+    if (preResult) {
+      return res.status(400).send({
+        statusCode: 400,
+        error: 'bad request',
+        messege: 'Van már ilyen ID'
+      });
+    } else {
+      models.Videogame.create({
+        manufacturer: req.body.manufacturer,
+        model: req.body.model
+      }).then(result => {
+        res.redirect('/videogames');
+      });
+    }
+  });
+});
+
 videogames.get('/:id/', (req, res) => {
   models.Videogame.findById(req.params.id).then(videogames => {
     if (videogames === null) {
@@ -32,25 +57,6 @@ videogames.get('/:id/edit', (req, res) => {
   });
 });
 
-videogames.post('/', (req, res) => {
-  models.Videogame.findOne({ where: { name: req.body.name } }).then(preResult => {
-    if (preResult) {
-      return res.status(400).send({
-        statusCode: 400,
-        error: 'bad request',
-        messege: 'Van már ilyen ID'
-      });
-    } else {
-      models.Videogame.create({
-        manufacturer: req.body.manufacturer,
-        model: req.body.model
-      }).then(result => {
-        res.json(result);
-      });
-    }
-  });
-});
-
 videogames.delete('/:id', (req, res) => {
   models.Videogame.destroy({ where: { id: req.params.id } }).then(result => {
     if (!result) {
@@ -60,7 +66,7 @@ videogames.delete('/:id', (req, res) => {
         messege: 'Nincs ilyen ID'
       });
     } else {
-      res.json(result);
+      res.redirect('/videogames');
     }
   });
 });
@@ -70,7 +76,7 @@ videogames.put('/:id', (req, res) => {
     if (!preResult) {
       return res.status(400).send('Nincs ilyen ID!');
     }
-    models.Videogame.findOne({ where: { name: req.body.name } }).then(preResult2 => {
+    models.Videogame.findOne({ where: { id: req.body.id } }).then(preResult2 => {
       if (preResult2) {
         return res.status(400).send('Már van ilyen videogame!');
       } else {
@@ -81,7 +87,7 @@ videogames.put('/:id', (req, res) => {
         {
           where: { id: req.params.id }
         }).then(result => {
-          res.json(result);
+          res.redirect(`/videogames/${req.params.id}`);
         });
       }
     });

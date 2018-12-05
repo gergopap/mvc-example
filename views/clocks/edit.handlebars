@@ -1,5 +1,4 @@
 <h1>Clocks</h1>
-
 <form method="POST" action="/clocks/{{clock.id}}?_method=PUT">
   <div class="card border-dark mb-3" style="max-width: 18rem;">
     <div class="card-header">
@@ -18,8 +17,7 @@
         <label for="type">Type</label><br>
         <input type="text" name="type" value="{{clock.type}}" />
       </div>
-      <input type="submit" value="Frissítés"/>
-      <button type="submit" class="btn btn-info">Send</button>
+      <input type="submit" class="btn btn-info" value="Update"/>
     </div>
   </div>
   </div>
